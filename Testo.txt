@@ -1,0 +1,130 @@
+README.txt
+
+GL.SYSTEM — PAPER-1 EXPERIMENTAL PACK
+Gabriel Luelli — GL.SYSTEM Laboratory
+Release: v0.2
+Classification: Deterministic Control Layer
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GL.SYSTEM PRINCIPLE
+Determinism precedes amplification.
+Structure precedes stochasticity.
+Control precedes scale.
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+MISSION
+
+Design a deterministic supervisory layer positioned
+upstream of LLM invocation.
+
+Objective:
+Stabilize amplification.
+Reduce regime chatter.
+Bound stochastic escalation.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FORMAL CORE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+INPUT:
+    f(t)  → feature vector
+    w     → weights, Σ|w_i| = 1
+
+ENERGY:
+    E_t = Σ w_i f_i(t)
+    E_t ∈ [0,10]
+
+STABILITY (EMA):
+    S_t = αE_t + (1 − α)S_(t−1)
+
+REGIME ENGINE:
+    DROP      if S_t ∈ [0,3]
+    STABLE    if S_t ∈ (3,7]
+    SURGE     if S_t ∈ (7,10]
+
+HYSTERESIS:
+    Escalation requires N_up consecutive samples.
+    De-escalation requires N_down consecutive samples.
+    Cooldown prevents flip-flop transitions.
+
+GATE:
+    G(state) → {PASS, HOLD, DROP}
+    Deterministic.
+    Non-bypassable.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+EXPERIMENTAL SUITE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Signals:
+    STEP
+    RAMP
+    SINE
+    BURST
+    NOISE
+    ADVERSARIAL (threshold oscillation)
+
+Controllers Compared:
+    FULL      (EMA + Hysteresis + Cooldown)
+    NO-HYST
+    NO-EMA
+    NAIVE
+
+Metrics:
+    chatter_rate
+    transition_latency
+    variance_attenuation
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DEFAULT PARAMETERS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+α = 0.25
+Δt = 1s
+T1 = 3
+T2 = 7
+N_up = 3
+N_down = 4
+Cooldown = 2
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHAT THIS IS NOT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+• Not an LLM replacement
+• Not an autonomous agent
+• Not narrative architecture
+
+This is a deterministic regulatory layer.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GL.SYSTEM CONTEXT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+This module operates within GL.SYSTEM:
+a local-first deterministic architecture where:
+
+ENTRY → KERNEL → GUARD → IO
+
+Probabilistic models produce proposals.
+Deterministic structure decides.
+
+Amplification is allowed only under stability.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+STATUS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Pre-IEEE technical release.
+Mathematical structure locked.
+Experimental protocol defined.
+
+GL.SYSTEM Laboratory
